@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SerialReminder</string>
+    <string name="tab_1">Favorite</string>
+    <string name="tab_2">Search</string>
+</resources>
