@@ -17,12 +17,12 @@ import java.util.ArrayList;
 public class CardAdapter extends ArrayAdapter {
     private final Activity context;
     private final ArrayList<String> titles;
-    private final ArrayList<String> descriptions;
-    public CardAdapter(Activity context, ArrayList<String> titles, ArrayList<String> descriptions) {
+    private final ArrayList<String> years;
+    public CardAdapter(Activity context, ArrayList<String> titles, ArrayList<String> years) {
         super(context,R.layout.adapter_view,titles);
         this.context = context;
         this.titles = titles;
-        this.descriptions = descriptions;
+        this.years = years;
     }
 
     @Override
@@ -37,10 +37,10 @@ public class CardAdapter extends ArrayAdapter {
         img.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_magnify_black_48dp));
         img.setDrawingCacheEnabled(true);
 
-        TextView txt = (TextView) rotView.findViewById(R.id.info_text);
+        TextView txt = (TextView) rotView.findViewById(R.id.year);
 
         title.setText(titles.get(position));
-        txt.setText(descriptions.get(position));
+        txt.setText(years.get(position));
         txt.setTextSize(20);
         title.setTextSize(15);
 

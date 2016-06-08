@@ -1,5 +1,7 @@
 package alpha.reminder.com.serialreminder;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,8 @@ import java.util.ArrayList;
 
 public class SingletoneInfo {
     private ArrayList<String> titles = new ArrayList<>();
-    private ArrayList<String> descriptions = new ArrayList<>();
+    private ArrayList<String> years = new ArrayList<>();
+    private ArrayList<Bitmap> poster = new ArrayList<>();
     private final static SingletoneInfo info = new SingletoneInfo();
 
     public static SingletoneInfo getInstance() {
@@ -16,21 +19,19 @@ public class SingletoneInfo {
     }
 
     private SingletoneInfo() {
-        addDescription("sdsad");
-        addDescription("sdsad");
-        addDescription("sdsad");
 
-        addTitle("sdsad");
-        addTitle("sdsad");
-        addTitle("sdsad");
     }
 
     public ArrayList<String> getTitles() {
         return titles;
     }
 
-    public ArrayList<String> getDescriptions() {
-        return descriptions;
+    public ArrayList<String> getYears() {
+        return years;
+    }
+
+    public ArrayList<Bitmap> getPoster() {
+        return poster;
     }
 
     public void addTitle(String title) {
@@ -38,6 +39,20 @@ public class SingletoneInfo {
     }
 
     public void addDescription(String description) {
-        descriptions.add(description);
+        years.add(description);
+    }
+    public void addImage(Bitmap bitmap){
+        poster.add(bitmap);
+    }
+
+    public void clearAll() {
+        titles = new ArrayList<>();
+        years = new ArrayList<>();
+        poster = new ArrayList<>();
+    }
+    public void showTitles(){
+        for (String s: titles) {
+            System.out.println(s);
+        }
     }
 }

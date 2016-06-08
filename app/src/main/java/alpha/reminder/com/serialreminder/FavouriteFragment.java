@@ -19,10 +19,6 @@ public class FavouriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.favourite_fragment, container, false);
-
-
-        listView = (ListView) rootView.findViewById(R.id.list_view);
-        listView.setAdapter(new CardAdapter(getActivity(), SingletoneInfo.getInstance().getTitles(), SingletoneInfo.getInstance().getDescriptions()));
         return rootView;
     }
 }

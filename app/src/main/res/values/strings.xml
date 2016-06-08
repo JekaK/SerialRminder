@@ -2,4 +2,5 @@
     <string name="app_name">SerialReminder</string>
     <string name="tab_1">Favorite</string>
     <string name="tab_2">Search</string>
+    <string name="HTTP_REQUEST">http://www.omdbapi.com/?s=</string>
 </resources>
