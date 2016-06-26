@@ -9,9 +9,7 @@ import java.util.ArrayList;
  */
 
 public class SingletoneInfo {
-    private ArrayList<String> titles = new ArrayList<>();
-    private ArrayList<String> years = new ArrayList<>();
-    private ArrayList<Bitmap> poster = new ArrayList<>();
+    private ArrayList<Film> films;
     private final static SingletoneInfo info = new SingletoneInfo();
 
     public static SingletoneInfo getInstance() {
@@ -19,40 +17,21 @@ public class SingletoneInfo {
     }
 
     private SingletoneInfo() {
-
-    }
-
-    public ArrayList<String> getTitles() {
-        return titles;
-    }
-
-    public ArrayList<String> getYears() {
-        return years;
-    }
-
-    public ArrayList<Bitmap> getPoster() {
-        return poster;
-    }
-
-    public void addTitle(String title) {
-        titles.add(title);
-    }
-
-    public void addDescription(String description) {
-        years.add(description);
-    }
-    public void addImage(Bitmap bitmap){
-        poster.add(bitmap);
+        films = new ArrayList<>();
     }
 
     public void clearAll() {
-        titles = new ArrayList<>();
-        years = new ArrayList<>();
-        poster = new ArrayList<>();
+       films = new ArrayList<>();
     }
     public void showTitles(){
-        for (String s: titles) {
-            System.out.println(s);
+        for (Film s: films) {
+            System.out.println(s.getTitle());
         }
+    }
+    public void addFilm(Film film){
+        films.add(film);
+    }
+    public ArrayList<Film> getFilms() {
+        return films;
     }
 }

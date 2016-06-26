@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.search_list);
-        adapter = new CardAdapter(getActivity(), SingletoneInfo.getInstance().getTitles(), SingletoneInfo.getInstance().getYears());
+        adapter = new CardAdapter(getActivity(),SingletoneInfo.getInstance().getFilms());
         listView.setAdapter(adapter);
         return rootView;
     }
@@ -121,9 +121,11 @@ public class SearchFragment extends Fragment {
                     SingletoneInfo.getInstance().clearAll();
                     for (int i = 0; i < array.size(); i++) {
                         JSONObject oneRes = (JSONObject) array.get(i);
-                        SingletoneInfo.getInstance().addTitle((String) oneRes.get("Title"));
+                        Film film = new Film();
+                        film.setTitle((String) oneRes.get("Title"));
+                        film.setYear((String) oneRes.get("Year"));
 
-                        SingletoneInfo.getInstance().addDescription((String) oneRes.get("Year"));
+                        SingletoneInfo.getInstance().addFilm(film);
                     }
                     SingletoneInfo.getInstance().showTitles();
 
@@ -142,7 +144,7 @@ public class SearchFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             adapter.clear();
-            adapter = new CardAdapter(getActivity(), SingletoneInfo.getInstance().getTitles(), SingletoneInfo.getInstance().getYears());
+            adapter = new CardAdapter(getActivity(),SingletoneInfo.getInstance().getFilms());
             listView.setAdapter(adapter);
         }
     }

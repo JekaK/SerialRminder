@@ -16,13 +16,12 @@ import java.util.ArrayList;
 
 public class CardAdapter extends ArrayAdapter {
     private final Activity context;
-    private final ArrayList<String> titles;
-    private final ArrayList<String> years;
-    public CardAdapter(Activity context, ArrayList<String> titles, ArrayList<String> years) {
-        super(context,R.layout.adapter_view,titles);
+    private final ArrayList<Film> films;
+
+    public CardAdapter(Activity context, ArrayList<Film> films) {
+        super(context,R.layout.adapter_view,films);
         this.context = context;
-        this.titles = titles;
-        this.years = years;
+        this.films = films;
     }
 
     @Override
@@ -38,9 +37,8 @@ public class CardAdapter extends ArrayAdapter {
         img.setDrawingCacheEnabled(true);
 
         TextView txt = (TextView) rotView.findViewById(R.id.year);
-
-        title.setText(titles.get(position));
-        txt.setText(years.get(position));
+        title.setText(films.get(position).getTitle());
+        txt.setText(films.get(position).getYear());
         txt.setTextSize(20);
         title.setTextSize(15);
 
