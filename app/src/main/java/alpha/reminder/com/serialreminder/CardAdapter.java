@@ -37,8 +37,9 @@ public class CardAdapter extends ArrayAdapter {
         img.setDrawingCacheEnabled(true);
 
         TextView txt = (TextView) rotView.findViewById(R.id.year);
-        title.setText(films.get(position).getTitle());
-        txt.setText(films.get(position).getYear());
+        Film film = films.get(position);
+        title.setText(film.getTitle());
+        txt.setText(film.getYear());
         txt.setTextSize(20);
         title.setTextSize(15);
 
