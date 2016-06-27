@@ -12,5 +12,5 @@
         app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
         app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
-        android:id="@+id/list_view" />
+        android:id="@+id/favourite_list" />
 </android.support.constraint.ConstraintLayout>

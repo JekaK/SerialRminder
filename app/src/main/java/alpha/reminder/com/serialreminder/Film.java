@@ -1,5 +1,10 @@
 package alpha.reminder.com.serialreminder;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by Eugeniy Krukun on 27.06.2016.
  */
@@ -7,12 +12,12 @@ package alpha.reminder.com.serialreminder;
 public class Film {
     private String title;
     private String year;
-    private String poster;
+    private Bitmap poster;
 
     public Film() {
     }
 
-    public Film(String title, String year, String poster) {
+    public Film(String title, String year, Bitmap poster) {
         this.title = title;
         this.year = year;
         this.poster = poster;
@@ -26,8 +31,14 @@ public class Film {
         return year;
     }
 
-    public String getPoster() {
+    public Bitmap getPoster() {
         return poster;
+    }
+    public byte[] getPosterBytes(){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        poster.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
     }
 
     public void setTitle(String title) {
@@ -38,7 +49,10 @@ public class Film {
         this.year = year;
     }
 
-    public void setPoster(String poster) {
+    public void setPoster(Bitmap poster) {
         this.poster = poster;
+    }
+    public void setPoster(byte[] poster){
+        this.poster = BitmapFactory.decodeByteArray(poster,0,poster.length);
     }
 }

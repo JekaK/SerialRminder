@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,8 +36,7 @@ import java.net.URL;
 
 public class SearchFragment extends Fragment {
     private ListView listView;
-    private CardAdapter adapter;
-
+    private CardAdapterSearch adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.search_list);
-        adapter = new CardAdapter(getActivity(),SingletoneInfo.getInstance().getFilms());
+        adapter = new CardAdapterSearch(getActivity(),SingletoneInfo.getInstance().getFilms());
         listView.setAdapter(adapter);
         return rootView;
     }
@@ -124,6 +124,8 @@ public class SearchFragment extends Fragment {
                         Film film = new Film();
                         film.setTitle((String) oneRes.get("Title"));
                         film.setYear((String) oneRes.get("Year"));
+                        film.setPoster(BitmapFactory.decodeResource(getResources(),
+                                R.drawable.ic_magnify_black_48dp));
 
                         SingletoneInfo.getInstance().addFilm(film);
                     }
@@ -144,7 +146,7 @@ public class SearchFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             adapter.clear();
-            adapter = new CardAdapter(getActivity(),SingletoneInfo.getInstance().getFilms());
+            adapter = new CardAdapterSearch(getActivity(),SingletoneInfo.getInstance().getFilms());
             listView.setAdapter(adapter);
         }
     }
