@@ -20,7 +20,7 @@ public class CardAdapterSearch extends ArrayAdapter {
     private final ArrayList<Film> films;
 
     public CardAdapterSearch(Activity context, ArrayList<Film> films) {
-        super(context,R.layout.serch_adapter_view,films);
+        super(context,R.layout.search_adapter_view,films);
         this.context = context;
         this.films = films;
     }
@@ -28,7 +28,7 @@ public class CardAdapterSearch extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        final View rootView = inflater.inflate(R.layout.serch_adapter_view, null, true);
+        final View rootView = inflater.inflate(R.layout.search_adapter_view, null, true);
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
         final Film film = films.get(position);
         TextView title = (TextView) rootView.findViewById(R.id.title);
