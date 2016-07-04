@@ -21,11 +21,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String TITLE = "title";
     private final String YEAR = "year";
     private final String POSTER = "poster";
+    private final String TYPE = "type";
     private final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             "id integer primary key autoincrement," +
             TITLE + " text," +
             YEAR + " text," +
-            POSTER + " BLOB);";
+            POSTER + " BLOB," +
+            TYPE + " text" +
+            ");";
 
     public DBHelper(Context context) {
         super(context, "filmsDb", null, 1);
@@ -40,6 +43,13 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        if (newVersion > oldVersion) {
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + TYPE + " INTEGER DEFAULT 0");
+        }
+    }
+
+    public void dropTable() {
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
     public void insertFilm(Film film) {
@@ -47,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("title", film.getTitle());
         cv.put("year", film.getYear());
         cv.put("poster", film.getPosterBytes());
+        cv.put("type", film.getType());
         long rowID = database.insert(TABLE_NAME, null, cv);
         Log.d(MY_LOG, "Inserted to " + rowID);
         this.close();
@@ -59,11 +70,13 @@ public class DBHelper extends SQLiteOpenHelper {
             int title = cursor.getColumnIndex("title");
             int year = cursor.getColumnIndex("year");
             int poster = cursor.getColumnIndex("poster");
+            int type = cursor.getColumnIndex("type");
             do {
                 Film film = new Film();
                 film.setTitle(cursor.getString(title));
                 film.setYear(cursor.getString(year));
                 film.setPoster(cursor.getBlob(poster));
+                film.setType(cursor.getString(type));
                 films.add(film);
             } while (cursor.moveToNext());
             cursor.close();

@@ -13,14 +13,24 @@ public class Film {
     private String title;
     private String year;
     private Bitmap poster;
+    private String type;
 
     public Film() {
     }
 
-    public Film(String title, String year, Bitmap poster) {
+    public Film(String title, String year, Bitmap poster,String type) {
         this.title = title;
         this.year = year;
         this.poster = poster;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getTitle() {

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -112,21 +114,20 @@ public class SearchFragment extends Fragment {
                 if (connection != null && connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     String response = new String();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
                     response += reader.readLine();
-
                     resulObject = (JSONObject) parser.parse(response);
 
                     JSONArray array = (JSONArray) resulObject.get("Search");
                     SingletoneInfo.getInstance().clearAll();
                     for (int i = 0; i < array.size(); i++) {
                         JSONObject oneRes = (JSONObject) array.get(i);
+                        String posterURL = (String) oneRes.get("Poster");
+                        Bitmap poster = BitmapFactory.decodeStream((InputStream) new URL(posterURL).getContent());
                         Film film = new Film();
+                        film.setType((String) oneRes.get("Type"));
                         film.setTitle((String) oneRes.get("Title"));
                         film.setYear((String) oneRes.get("Year"));
-                        film.setPoster(BitmapFactory.decodeResource(getResources(),
-                                R.drawable.ic_magnify_black_48dp));
-
+                        film.setPoster(poster);
                         SingletoneInfo.getInstance().addFilm(film);
                     }
                     SingletoneInfo.getInstance().showTitles();

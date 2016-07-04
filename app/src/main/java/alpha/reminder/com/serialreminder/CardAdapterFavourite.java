@@ -32,15 +32,14 @@ public class CardAdapterFavourite extends ArrayAdapter {
         final Film film = films.get(position);
         TextView title = (TextView) rootView.findViewById(R.id.title);
 
-        img.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_magnify_black_48dp));
+        img.setImageBitmap(film.getPoster());
         img.setDrawingCacheEnabled(true);
-        TextView txt = (TextView) rootView.findViewById(R.id.year);
+        TextView year = (TextView) rootView.findViewById(R.id.year);
 
         title.setText(film.getTitle());
-        txt.setText(film.getYear());
-        txt.setTextSize(20);
+        year.setText(film.getYear());
+        year.setTextSize(20);
         title.setTextSize(15);
-
         return rootView;
     }
 }
