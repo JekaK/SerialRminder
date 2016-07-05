@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class CardAdapterFavourite extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         final View rootView = inflater.inflate(R.layout.favourite_adapter_view, null, true);
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
@@ -35,11 +36,21 @@ public class CardAdapterFavourite extends ArrayAdapter {
         img.setImageBitmap(film.getPoster());
         img.setDrawingCacheEnabled(true);
         TextView year = (TextView) rootView.findViewById(R.id.year);
-
+        ImageButton delete = (ImageButton) rootView.findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBHelper helper = new DBHelper(rootView.getContext());
+                helper.deleteFilm(film);
+                remove(getItem(position));
+                notifyDataSetChanged();
+            }
+        });
         title.setText(film.getTitle());
         year.setText(film.getYear());
         year.setTextSize(20);
         title.setTextSize(15);
+
         return rootView;
     }
 }

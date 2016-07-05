@@ -63,6 +63,11 @@ public class DBHelper extends SQLiteOpenHelper {
         this.close();
     }
 
+    public void deleteFilm(Film film) {
+        int delete = database.delete(TABLE_NAME, TITLE + " = \"" + film.getTitle()+"\"", null);
+        Log.d("Some Tag", "Int del = " + delete);
+    }
+
     public ArrayList<Film> getAllFilms() {
         ArrayList<Film> films = new ArrayList<>();
         Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null, null);
