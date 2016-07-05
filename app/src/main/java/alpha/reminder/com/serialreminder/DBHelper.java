@@ -64,7 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void deleteFilm(Film film) {
-        int delete = database.delete(TABLE_NAME, TITLE + " = \"" + film.getTitle()+"\"", null);
+        int delete = database.delete(TABLE_NAME, TITLE + " = \"" + film.getTitle() + "\"", null);
         Log.d("Some Tag", "Int del = " + delete);
     }
 
