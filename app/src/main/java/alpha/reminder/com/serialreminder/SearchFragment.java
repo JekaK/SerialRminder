@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ import java.net.URL;
 public class SearchFragment extends Fragment {
     private ListView listView;
     private CardAdapterSearch adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.search_list);
-        adapter = new CardAdapterSearch(getActivity(),SingletoneInfo.getInstance().getFilms());
+        adapter = new CardAdapterSearch(getActivity(), SingletoneInfo.getInstance().getFilms());
         listView.setAdapter(adapter);
         return rootView;
     }
@@ -88,7 +90,6 @@ public class SearchFragment extends Fragment {
     class SearchAsynkTask extends AsyncTask<Void, Void, Void> {
 
         private String searchName;
-        private JSONObject resulObject;
         private String request;
         private Resources resources;
 
@@ -100,45 +101,26 @@ public class SearchFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            request = resources.getString(R.string.HTTP_REQUEST) + searchName;
+            request = resources.getString(R.string.HTTP_REQUEST) + searchName + resources.getString(R.string.PAGE) + "1";
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            JSONParser parser = new JSONParser();
-            URL url = null;
-            HttpURLConnection connection = null;
-            try {
-                url = new URL(request);
-                connection = (HttpURLConnection) url.openConnection();
-                if (connection != null && connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    String response = new String();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    response += reader.readLine();
-                    resulObject = (JSONObject) parser.parse(response);
 
-                    JSONArray array = (JSONArray) resulObject.get("Search");
-                    SingletoneInfo.getInstance().clearAll();
-                    for (int i = 0; i < array.size(); i++) {
-                        JSONObject oneRes = (JSONObject) array.get(i);
-                        String posterURL = (String) oneRes.get("Poster");
-                        Bitmap poster = BitmapFactory.decodeStream((InputStream) new URL(posterURL).getContent());
-                        Film film = new Film();
-                        film.setType((String) oneRes.get("Type"));
-                        film.setTitle((String) oneRes.get("Title"));
-                        film.setYear((String) oneRes.get("Year"));
-                        film.setPoster(poster);
-                        SingletoneInfo.getInstance().addFilm(film);
-                    }
-                    SingletoneInfo.getInstance().showTitles();
+            JSONObject resultObject = requestResult(request);
+            String totalRes = (String) resultObject.get("totalResults");
+            int pageCount = pageCounter(Integer.parseInt(totalRes));
+            int currentCount = 2;
 
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
+            JSONArray array = (JSONArray) resultObject.get("Search");
+            SingletoneInfo.getInstance().clearAll();
+            addInfo(array);
+            while (currentCount <= pageCount) {
+                request = request.substring(0, request.length() - 1) + currentCount;
+                resultObject = requestResult(request);
+                array = (JSONArray) resultObject.get("Search");
+                addInfo(array);
+                currentCount++;
             }
             return null;
         }
@@ -147,8 +129,71 @@ public class SearchFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             adapter.clear();
-            adapter = new CardAdapterSearch(getActivity(),SingletoneInfo.getInstance().getFilms());
+            adapter = new CardAdapterSearch(getActivity(), SingletoneInfo.getInstance().getFilms());
             listView.setAdapter(adapter);
         }
+    }
+
+    public void addInfo(JSONArray array) {
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject oneRes = (JSONObject) array.get(i);
+            String posterURL = (String) oneRes.get("Poster");
+            Bitmap poster = null;
+            try {
+                poster = BitmapFactory.decodeStream((InputStream) new URL(posterURL).getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (poster == null) {
+                poster = BitmapFactory.decodeResource(getResources(), R.drawable.question);
+            }
+            Film film = new Film();
+            film.setType((String) oneRes.get("Type"));
+            film.setTitle((String) oneRes.get("Title"));
+            film.setYear((String) oneRes.get("Year"));
+            film.setPoster(poster);
+            SingletoneInfo.getInstance().addFilm(film);
+        }
+    }
+
+    public JSONObject requestResult(String request) {
+
+        JSONParser parser = new JSONParser();
+        URL url = null;
+        try {
+            url = new URL(request);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONObject resulObject = null;
+
+        try {
+            if (connection != null && connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                String response = new String();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                response += reader.readLine();
+                resulObject = (JSONObject) parser.parse(response);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return resulObject;
+    }
+
+    private int pageCounter(int sum) {
+        int count = 1;
+        while (sum > 0) {
+            sum /= 10;
+            count++;
+        }
+        return count;
     }
 }
