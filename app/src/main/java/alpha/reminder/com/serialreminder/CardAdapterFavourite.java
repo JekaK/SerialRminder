@@ -22,7 +22,7 @@ public class CardAdapterFavourite extends ArrayAdapter {
     private final ArrayList<Film> films;
 
     public CardAdapterFavourite(Activity context, ArrayList<Film> films) {
-        super(context,R.layout.search_adapter_view,films);
+        super(context, R.layout.search_adapter_view, films);
         this.context = context;
         this.films = films;
     }
@@ -33,13 +33,17 @@ public class CardAdapterFavourite extends ArrayAdapter {
         final View rootView = inflater.inflate(R.layout.favourite_adapter_view, null, true);
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
         final Film film = films.get(position);
+
+
         TextView title = (TextView) rootView.findViewById(R.id.title);
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),MovieProfileActivity.class);
-                intent.putExtra("title",film.getTitle());
-                intent.putExtra("poster",film.getPosterBytes());
+                Intent intent = new Intent(getContext(), MovieProfileActivity.class);
+                intent.putExtra("title", film.getTitle());
+                intent.putExtra("poster", film.getPosterBytes());
+                intent.putExtra("type", film.getType());
+                intent.putExtra("year", film.getYear());
                 getContext().startActivity(intent);
             }
         });
@@ -54,7 +58,7 @@ public class CardAdapterFavourite extends ArrayAdapter {
                 helper.deleteFilm(film);
                 remove(getItem(position));
                 notifyDataSetChanged();
-                Snackbar.make(rootView,film.getTitle()+" deleted from you favourite list",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(rootView, film.getTitle() + " deleted from you favourite list", Snackbar.LENGTH_SHORT).show();
             }
         });
         title.setText(film.getTitle());

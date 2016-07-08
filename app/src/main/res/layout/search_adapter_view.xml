@@ -65,6 +65,7 @@
                     android:id="@+id/year"
                     android:layout_below="@+id/title"
                     android:layout_alignLeft="@+id/title"
+                    android:layout_alignRight="@+id/favourite"
                     android:layout_alignStart="@+id/title" />
 
                 <ImageButton

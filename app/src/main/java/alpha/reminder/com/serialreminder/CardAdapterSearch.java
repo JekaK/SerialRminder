@@ -32,6 +32,7 @@ public class CardAdapterSearch extends ArrayAdapter {
         final View rootView = inflater.inflate(R.layout.search_adapter_view, null, true);
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
         final Film film = films.get(position);
+
         TextView title = (TextView) rootView.findViewById(R.id.title);
 
         img.setImageBitmap(film.getPoster());

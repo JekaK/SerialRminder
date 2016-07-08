@@ -151,6 +151,7 @@ public class SearchFragment extends Fragment {
             film.setType((String) oneRes.get("Type"));
             film.setTitle((String) oneRes.get("Title"));
             film.setYear((String) oneRes.get("Year"));
+            film.setId((String) oneRes.get("imdbID"));
             film.setPoster(poster);
             SingletoneInfo.getInstance().addFilm(film);
         }

@@ -14,11 +14,13 @@ public class Film {
     private String year;
     private Bitmap poster;
     private String type;
+    private String id;
+    private String description;
 
     public Film() {
     }
 
-    public Film(String title, String year, Bitmap poster,String type) {
+    public Film(String title, String year, Bitmap poster, String type) {
         this.title = title;
         this.year = year;
         this.poster = poster;
@@ -41,10 +43,19 @@ public class Film {
         return year;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public Bitmap getPoster() {
         return poster;
     }
-    public byte[] getPosterBytes(){
+
+    public byte[] getPosterBytes() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         poster.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
@@ -62,7 +73,16 @@ public class Film {
     public void setPoster(Bitmap poster) {
         this.poster = poster;
     }
-    public void setPoster(byte[] poster){
-        this.poster = BitmapFactory.decodeByteArray(poster,0,poster.length);
+
+    public void setPoster(byte[] poster) {
+        this.poster = BitmapFactory.decodeByteArray(poster, 0, poster.length);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
