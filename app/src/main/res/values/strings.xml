@@ -4,4 +4,5 @@
     <string name="tab_2">Search</string>
     <string name="HTTP_REQUEST">http://www.omdbapi.com/?s=</string>
     <string name="PAGE">&amp;page=</string>
+    <string name="test_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate pellentesque ultricies. Cras vel congue libero. Cras facilisis nulla arcu, non congue quam luctus ut. Sed scelerisque consectetur dui et hendrerit. Mauris sagittis accumsan eros ut malesuada. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam erat volutpat. Donec laoreet ipsum ac faucibus faucibus. Morbi pellentesque vitae lacus dictum imperdiet. Integer ante orci, porttitor vel dolor at, finibus cursus justo. Praesent a dui sed felis luctus mollis nec vitae eros. Proin eget purus at massa vestibulum bibendum ac at elit. Nam pharetra sit amet massa vel laoreet. Ut tincidunt in diam sed luctus.</string>
 </resources>

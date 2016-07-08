@@ -1,6 +1,8 @@
 package alpha.reminder.com.serialreminder;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,15 @@ public class CardAdapterFavourite extends ArrayAdapter {
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
         final Film film = films.get(position);
         TextView title = (TextView) rootView.findViewById(R.id.title);
-
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),MovieProfileActivity.class);
+                intent.putExtra("title",film.getTitle());
+                intent.putExtra("poster",film.getPosterBytes());
+                getContext().startActivity(intent);
+            }
+        });
         img.setImageBitmap(film.getPoster());
         img.setDrawingCacheEnabled(true);
         TextView year = (TextView) rootView.findViewById(R.id.year);
@@ -44,6 +54,7 @@ public class CardAdapterFavourite extends ArrayAdapter {
                 helper.deleteFilm(film);
                 remove(getItem(position));
                 notifyDataSetChanged();
+                Snackbar.make(rootView,film.getTitle()+" deleted from you favourite list",Snackbar.LENGTH_SHORT).show();
             }
         });
         title.setText(film.getTitle());

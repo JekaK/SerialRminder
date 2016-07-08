@@ -1,6 +1,7 @@
 package alpha.reminder.com.serialreminder;
 
 import android.app.Activity;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class CardAdapterSearch extends ArrayAdapter {
             public void onClick(View v) {
                 DBHelper dbHelper = new DBHelper(rootView.getContext());
                 dbHelper.insertFilm(film);
+                Snackbar.make(rootView,film.getTitle()+" now in you favourite list!",Snackbar.LENGTH_SHORT).show();
             }
         });
 

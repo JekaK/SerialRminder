@@ -68,13 +68,15 @@
                     android:layout_alignStart="@+id/title" />
 
                 <ImageButton
-                    android:src="@drawable/abc_ic_star_black_36dp"
+                    android:src="@drawable/plus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/favourite"
                     android:focusable="false"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="11dp"
+                    android:background="#FFFFFF"
+                    android:layout_marginEnd="11dp"
+                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
