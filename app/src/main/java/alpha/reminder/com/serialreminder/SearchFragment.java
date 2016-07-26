@@ -6,18 +6,19 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,6 +32,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import alpha.reminder.com.serialreminder.util.NetworkUtils;
 
 
 /**
@@ -108,19 +111,35 @@ public class SearchFragment extends Fragment {
         protected Void doInBackground(Void... params) {
 
             JSONObject resultObject = requestResult(request);
-            String totalRes = (String) resultObject.get("totalResults");
-            int pageCount = pageCounter(Integer.parseInt(totalRes));
-            int currentCount = 2;
+            if (resultObject != null) {
+                String totalRes = (String) resultObject.get("totalResults");
+                int pageCount = pageCounter(Integer.parseInt(totalRes));
+                int currentCount = 2;
 
-            JSONArray array = (JSONArray) resultObject.get("Search");
-            SingletoneInfo.getInstance().clearAll();
-            addInfo(array);
-            while (currentCount <= pageCount) {
-                request = request.substring(0, request.length() - 1) + currentCount;
-                resultObject = requestResult(request);
-                array = (JSONArray) resultObject.get("Search");
-                addInfo(array);
-                currentCount++;
+                JSONArray array = (JSONArray) resultObject.get("Search");
+
+                if (array != null) {
+                    SingletoneInfo.getInstance().clearAll();
+                    addInfo(array);
+                    while (currentCount <= pageCount) {
+                        request = request.substring(0, request.length() - 1) + currentCount;
+                        resultObject = requestResult(request);
+                        array = (JSONArray) resultObject.get("Search");
+
+                        //crashes when uncommented while search something like "trello"
+                        if (array != null) {
+                            addInfo(array);
+                        } else {
+                            Log.w("Search", "array is null in 'while' block");
+                        }
+
+                        currentCount++;
+                    }
+                } else {
+                    Log.w("Search", "JSONarray is null");
+                }
+            } else {
+                Log.w("Search", "requestResult is null");
             }
             return null;
         }
@@ -134,10 +153,10 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public void addInfo(JSONArray array) {
+    public void addInfo(@NonNull JSONArray array) {
         for (int i = 0; i < array.size(); i++) {
             JSONObject oneRes = (JSONObject) array.get(i);
-            String posterURL = (String) oneRes.get("Poster");
+            String posterURL = NetworkUtils.validateURL((String) oneRes.get("Poster"));
             Bitmap poster = null;
             try {
                 poster = BitmapFactory.decodeStream((InputStream) new URL(posterURL).getContent());
