@@ -1,4 +1,4 @@
-package alpha.reminder.com.serialreminder;
+package alpha.reminder.com.serialreminder.Profile;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import alpha.reminder.com.serialreminder.R;
 
 /**
  * Created by Eugeniy Krukun on 08.07.2016.

@@ -2,17 +2,15 @@ package alpha.reminder.com.serialreminder;
 
 import android.app.FragmentManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
+
+import alpha.reminder.com.serialreminder.Fragments.FavouriteFragment;
+import alpha.reminder.com.serialreminder.Fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;

@@ -10,6 +10,8 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 
+import alpha.reminder.com.serialreminder.Fragments.SearchFragment;
+
 import static org.junit.Assert.assertNotNull;
 import static org.robolectric.util.FragmentTestUtil.startFragment;
 

@@ -1,8 +1,8 @@
-package alpha.reminder.com.serialreminder;
-
-import android.graphics.Bitmap;
+package alpha.reminder.com.serialreminder.Singletone;
 
 import java.util.ArrayList;
+
+import alpha.reminder.com.serialreminder.Entity.Film;
 
 /**
  * Created by kruku on 07.06.2016.

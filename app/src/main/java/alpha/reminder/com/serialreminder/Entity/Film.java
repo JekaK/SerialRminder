@@ -1,4 +1,4 @@
-package alpha.reminder.com.serialreminder;
+package alpha.reminder.com.serialreminder.Entity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

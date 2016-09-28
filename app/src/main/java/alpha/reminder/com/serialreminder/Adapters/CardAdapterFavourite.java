@@ -1,4 +1,4 @@
-package alpha.reminder.com.serialreminder;
+package alpha.reminder.com.serialreminder.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import alpha.reminder.com.serialreminder.DBHelper.DBHelper;
+import alpha.reminder.com.serialreminder.Entity.Film;
+import alpha.reminder.com.serialreminder.Profile.MovieProfileActivity;
+import alpha.reminder.com.serialreminder.R;
 
 /**
  * Created by kruku on 07.06.2016.

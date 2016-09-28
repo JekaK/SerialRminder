@@ -1,4 +1,4 @@
-package alpha.reminder.com.serialreminder;
+package alpha.reminder.com.serialreminder.Fragments;
 
 import android.app.Fragment;
 import android.app.SearchManager;
@@ -18,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,6 +32,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import alpha.reminder.com.serialreminder.Adapters.CardAdapterSearch;
+import alpha.reminder.com.serialreminder.Entity.Film;
+import alpha.reminder.com.serialreminder.R;
+import alpha.reminder.com.serialreminder.Singletone.SingletoneInfo;
 import alpha.reminder.com.serialreminder.util.NetworkUtils;
 
 

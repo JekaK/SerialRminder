@@ -1,4 +1,4 @@
-package alpha.reminder.com.serialreminder;
+package alpha.reminder.com.serialreminder.DBHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import alpha.reminder.com.serialreminder.Entity.Film;
 
 /**
  * Created by Eugeniy Krukun on 27.06.2016.
