@@ -23,6 +23,7 @@ public class SingletoneInfo {
     public void clearAll() {
        films = new ArrayList<>();
     }
+
     public void showTitles(){
         for (Film s: films) {
             System.out.println(s.getTitle());

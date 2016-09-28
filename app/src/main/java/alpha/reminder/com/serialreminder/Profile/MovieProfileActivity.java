@@ -8,14 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import alpha.reminder.com.serialreminder.R;
 
 /**
@@ -46,16 +42,16 @@ public class MovieProfileActivity extends Activity implements AppBarLayout.OnOff
         type = intent.getStringExtra("type");
 
         poster = BitmapFactory.decodeByteArray(intent.getByteArrayExtra("poster"), 0, intent.getByteArrayExtra("poster").length);
-        posterImage = (ImageView) findViewById(R.id.film_poster);
+        posterImage = (ImageView) findViewById(R.id.Photo);
         posterImage.setImageBitmap(poster);
 
-        yearView = (TextView) findViewById(R.id.year_text);
+        yearView = (TextView) findViewById(R.id.year);
         yearView.setText("Year:" + year);
 
-        typeView = (TextView) findViewById(R.id.type_text);
+        typeView = (TextView) findViewById(R.id.type);
         typeView.setText("Type:" + type);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.placeNameHolder);
         collapsingToolbarLayout.setTitle(title);
         collapsingToolbarLayout.setExpandedTitleMarginBottom(140);
 

@@ -1,20 +1,30 @@
 package alpha.reminder.com.serialreminder.Adapters;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import alpha.reminder.com.serialreminder.DBHelper.DBHelper;
 import alpha.reminder.com.serialreminder.Entity.Film;
+import alpha.reminder.com.serialreminder.MainActivity;
 import alpha.reminder.com.serialreminder.Profile.MovieProfileActivity;
 import alpha.reminder.com.serialreminder.R;
 
@@ -38,7 +48,7 @@ public class CardAdapterFavourite extends ArrayAdapter {
         final View rootView = inflater.inflate(R.layout.favourite_adapter_view, null, true);
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
         final Film film = films.get(position);
-
+        final FrameLayout frameLayout = (FrameLayout) rootView.findViewById(R.id.placeNameHolder);
 
         TextView title = (TextView) rootView.findViewById(R.id.title);
         rootView.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +59,10 @@ public class CardAdapterFavourite extends ArrayAdapter {
                 intent.putExtra("poster", film.getPosterBytes());
                 intent.putExtra("type", film.getType());
                 intent.putExtra("year", film.getYear());
-                getContext().startActivity(intent);
+                Pair<View, String> imagePair = Pair.create((View) img, "tImage");
+                Pair<View, String> holderPair = Pair.create((View) frameLayout, "tNameHolder");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, imagePair, holderPair);
+                ActivityCompat.startActivity(context, intent, options.toBundle());
             }
         });
         img.setImageBitmap(film.getPoster());
@@ -72,5 +85,20 @@ public class CardAdapterFavourite extends ArrayAdapter {
         title.setTextSize(15);
 
         return rootView;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void getReveal(View view) {
+        int centerX = (view.getLeft() + view.getRight()) / 2;
+        int centerY = (view.getTop() + view.getBottom()) / 2;
+
+        int startRadius = 0;
+        int endRadius = Math.max(view.getWidth(), view.getHeight());
+
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
+
+        view.setVisibility(View.VISIBLE);
+        anim.start();
     }
 }
