@@ -9,6 +9,8 @@
         android:id="@+id/search_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="4dp"
+        android:divider="@null"
         android:focusable="true"
         app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"

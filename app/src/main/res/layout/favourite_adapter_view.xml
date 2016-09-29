@@ -16,8 +16,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="1dp"
         android:background="#FFFFFF"
-        card_view:cardCornerRadius="5dp"
-        >
+        card_view:cardCornerRadius="5dp">
 
         <FrameLayout
             android:id="@+id/placeNameHolder"
@@ -29,7 +28,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="right|center_vertical">
-
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
@@ -42,7 +40,6 @@
                     android:layout_toRightOf="@+id/Photo"
                     android:ellipsize="end"
                     android:gravity="left|center"
-                    android:singleLine="true"
                     android:text="Jeka"
                     android:textColor="#000000" />
 
@@ -78,10 +75,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
+                    android:background="@null"
                     android:layout_marginRight="10dp"
-                    android:background="#FFFFFF"
                     android:focusable="false"
-                    android:src="@drawable/delete" />
+                    android:src="@drawable/ic_clear_black_24dp" />
             </RelativeLayout>
         </FrameLayout>
     </android.support.v7.widget.CardView>

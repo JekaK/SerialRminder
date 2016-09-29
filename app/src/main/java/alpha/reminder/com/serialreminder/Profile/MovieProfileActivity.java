@@ -6,34 +6,39 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import alpha.reminder.com.serialreminder.R;
 
 /**
  * Created by Eugeniy Krukun on 08.07.2016.
  */
 
-public class MovieProfileActivity extends Activity implements AppBarLayout.OnOffsetChangedListener {
+public class MovieProfileActivity extends Activity implements View.OnClickListener {
     private String title, type, year;
     private Bitmap poster;
     private ImageView posterImage;
-    private TextView yearView, typeView;
-    private CardView cardView;
+    private TextView viewTitle;
+    private ExpandableLayout expandableLayout0, expandableLayout1;
+    private TextView viewType, viewYear;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_profile);
 
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        appBarLayout.addOnOffsetChangedListener(this);
+        viewTitle = (TextView) findViewById(R.id.placeNameHolder);
 
-        cardView = (CardView) findViewById(R.id.info_card);
+        expandableLayout0 = (ExpandableLayout) findViewById(R.id.expandable_layout_0);
+        expandableLayout1 = (ExpandableLayout) findViewById(R.id.expandable_layout_1);
+        viewTitle.setOnClickListener(this);
+
+        viewYear = (TextView) findViewById(R.id.year);
+        viewType = (TextView) findViewById(R.id.type);
 
         Intent intent = getIntent();
 
@@ -45,26 +50,19 @@ public class MovieProfileActivity extends Activity implements AppBarLayout.OnOff
         posterImage = (ImageView) findViewById(R.id.Photo);
         posterImage.setImageBitmap(poster);
 
-        yearView = (TextView) findViewById(R.id.year);
-        yearView.setText("Year:" + year);
-
-        typeView = (TextView) findViewById(R.id.type);
-        typeView.setText("Type:" + type);
-
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.placeNameHolder);
-        collapsingToolbarLayout.setTitle(title);
-        collapsingToolbarLayout.setExpandedTitleMarginBottom(140);
-
+        viewType.setText("Type: " + type);
+        viewYear.setText("Year: " + year);
+        viewTitle.setText(title);
     }
 
     @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        verticalOffset = Math.abs(verticalOffset);
-        int difference = appBarLayout.getTotalScrollRange() - 150;
-        if (verticalOffset > difference) {
-          cardView.setVisibility(View.INVISIBLE);
+    public void onClick(View v) {
+        if (expandableLayout0.isExpanded()) {
+            expandableLayout0.collapse();
+            expandableLayout1.collapse();
         } else {
-            cardView.setVisibility(View.VISIBLE);
+            expandableLayout0.expand();
+            expandableLayout1.expand();
         }
     }
 }

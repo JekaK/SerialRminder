@@ -75,7 +75,7 @@
                     android:id="@+id/favourite"
                     android:focusable="false"
                     android:layout_marginRight="11dp"
-                    android:background="#FFFFFF"
+                    android:background="@null"
                     android:layout_marginEnd="11dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
