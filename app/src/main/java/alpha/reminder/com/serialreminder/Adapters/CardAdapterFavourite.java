@@ -59,6 +59,7 @@ public class CardAdapterFavourite extends ArrayAdapter {
                 intent.putExtra("poster", film.getPosterBytes());
                 intent.putExtra("type", film.getType());
                 intent.putExtra("year", film.getYear());
+                intent.putExtra("film_id", film.getId());
                 Pair<View, String> imagePair = Pair.create((View) img, "tImage");
                 Pair<View, String> holderPair = Pair.create((View) frameLayout, "tNameHolder");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, imagePair, holderPair);

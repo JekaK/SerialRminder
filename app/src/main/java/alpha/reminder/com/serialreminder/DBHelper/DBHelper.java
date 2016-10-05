@@ -16,7 +16,7 @@ import alpha.reminder.com.serialreminder.Entity.Film;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-
+    //TODO:Add update method for adding info about film
     private SQLiteDatabase database;
     private final String MY_LOG = "LOG";
     private final String TABLE_NAME = "Films";
@@ -24,17 +24,21 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String YEAR = "year";
     private final String POSTER = "poster";
     private final String TYPE = "type";
+    private final String FILM_ID = "film_id";
+
     private final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             "id integer primary key autoincrement," +
             TITLE + " text," +
             YEAR + " text," +
             POSTER + " BLOB," +
-            TYPE + " text" +
+            TYPE + " text," +
+            FILM_ID + " text" +
             ");";
 
     public DBHelper(Context context) {
-        super(context, "filmsDb", null, 1);
+        super(context, "filmsDb", null, 2);
         database = this.getWritableDatabase();
+
     }
 
     @Override
@@ -44,9 +48,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         if (newVersion > oldVersion) {
-            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + TYPE + " INTEGER DEFAULT 0");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + FILM_ID + " STRING DEFAULT 0");
         }
     }
 
@@ -60,6 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("year", film.getYear());
         cv.put("poster", film.getPosterBytes());
         cv.put("type", film.getType());
+        cv.put("film_id", film.getId());
         long rowID = database.insert(TABLE_NAME, null, cv);
         Log.d(MY_LOG, "Inserted to " + rowID);
         this.close();
@@ -78,12 +82,14 @@ public class DBHelper extends SQLiteOpenHelper {
             int year = cursor.getColumnIndex("year");
             int poster = cursor.getColumnIndex("poster");
             int type = cursor.getColumnIndex("type");
+            int film_id = cursor.getColumnIndex("film_id");
             do {
                 Film film = new Film();
                 film.setTitle(cursor.getString(title));
                 film.setYear(cursor.getString(year));
                 film.setPoster(cursor.getBlob(poster));
                 film.setType(cursor.getString(type));
+                film.setId(cursor.getString(film_id));
                 films.add(film);
             } while (cursor.moveToNext());
             cursor.close();

@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import alpha.reminder.com.serialreminder.Asynk.AsynkInfoTask;
 import alpha.reminder.com.serialreminder.R;
 
 /**
@@ -19,12 +22,12 @@ import alpha.reminder.com.serialreminder.R;
  */
 
 public class MovieProfileActivity extends Activity implements View.OnClickListener {
-    private String title, type, year;
+    private String title, type, year, film_id;
     private Bitmap poster;
     private ImageView posterImage;
     private TextView viewTitle;
     private ExpandableLayout expandableLayout0, expandableLayout1;
-    private TextView viewType, viewYear;
+    private TextView viewType, viewYear, viewDescription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,15 +39,15 @@ public class MovieProfileActivity extends Activity implements View.OnClickListen
         expandableLayout0 = (ExpandableLayout) findViewById(R.id.expandable_layout_0);
         expandableLayout1 = (ExpandableLayout) findViewById(R.id.expandable_layout_1);
         viewTitle.setOnClickListener(this);
-
         viewYear = (TextView) findViewById(R.id.year);
         viewType = (TextView) findViewById(R.id.type);
-
+        viewDescription = (TextView) findViewById(R.id.description);
         Intent intent = getIntent();
 
         title = intent.getStringExtra("title");
         year = intent.getStringExtra("year");
         type = intent.getStringExtra("type");
+        film_id = intent.getStringExtra("film_id");
 
         poster = BitmapFactory.decodeByteArray(intent.getByteArrayExtra("poster"), 0, intent.getByteArrayExtra("poster").length);
         posterImage = (ImageView) findViewById(R.id.Photo);
@@ -53,6 +56,14 @@ public class MovieProfileActivity extends Activity implements View.OnClickListen
         viewType.setText("Type: " + type);
         viewYear.setText("Year: " + year);
         viewTitle.setText(title);
+        final AsynkInfoTask asynkInfoTask = new AsynkInfoTask(this, film_id, new AsynkInfoTask.Delegate() {
+            @Override
+            public void onPostExecuteDone() {
+                viewDescription.setText(AsynkInfoTask.getPlot());
+            }
+        });
+        asynkInfoTask.execute();
+
     }
 
     @Override
