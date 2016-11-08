@@ -30,13 +30,16 @@ public class AsynkInfoTask extends AsyncTask<Void, Void, Void> {
     private Delegate delegate;
     private ProgressDialog progressDialog;
     private static String plot = "";
+    private static String released = "";
 
     public AsynkInfoTask(Context context, String id, Delegate delegate) {
         this.id = id;
         this.context = context;
         this.delegate = delegate;
         progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Loading...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
     }
 
     public interface Delegate {
@@ -54,6 +57,7 @@ public class AsynkInfoTask extends AsyncTask<Void, Void, Void> {
         JSONObject resultObject = requestResult("http://www.omdbapi.com/?i=" + id);
         if (resultObject != null) {
             plot = (String) resultObject.get("Plot");
+            released = (String) resultObject.get("Released");
         } else {
             Log.w("Film info", "Very bad");
         }
@@ -69,6 +73,10 @@ public class AsynkInfoTask extends AsyncTask<Void, Void, Void> {
 
     public static String getPlot() {
         return plot;
+    }
+
+    public static String getReleased() {
+        return released;
     }
 
     private JSONObject requestResult(String request) {

@@ -16,6 +16,7 @@ public class Film {
     private String type;
     private String id;
     private String description;
+    private String released = new String("");
 
     public Film() {
     }
@@ -25,6 +26,10 @@ public class Film {
         this.year = year;
         this.poster = poster;
         this.type = type;
+    }
+
+    public String getReleased() {
+        return released;
     }
 
     public String getType() {
@@ -60,6 +65,10 @@ public class Film {
         poster.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
+    }
+
+    public void setReleased(String released) {
+        this.released = released;
     }
 
     public void setTitle(String title) {

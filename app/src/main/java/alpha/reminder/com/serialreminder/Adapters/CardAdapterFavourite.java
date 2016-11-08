@@ -28,6 +28,8 @@ import alpha.reminder.com.serialreminder.MainActivity;
 import alpha.reminder.com.serialreminder.Profile.MovieProfileActivity;
 import alpha.reminder.com.serialreminder.R;
 
+import static android.support.v4.app.ActivityCompat.startActivity;
+
 /**
  * Created by kruku on 07.06.2016.
  */
@@ -48,10 +50,10 @@ public class CardAdapterFavourite extends ArrayAdapter {
         final View rootView = inflater.inflate(R.layout.favourite_adapter_view, null, true);
         final ImageView img = (ImageView) rootView.findViewById(R.id.Photo);
         final Film film = films.get(position);
-        final FrameLayout frameLayout = (FrameLayout) rootView.findViewById(R.id.placeNameHolder);
 
-        TextView title = (TextView) rootView.findViewById(R.id.title);
+        final TextView title = (TextView) rootView.findViewById(R.id.title);
         rootView.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MovieProfileActivity.class);
@@ -60,12 +62,14 @@ public class CardAdapterFavourite extends ArrayAdapter {
                 intent.putExtra("type", film.getType());
                 intent.putExtra("year", film.getYear());
                 intent.putExtra("film_id", film.getId());
-                Pair<View, String> imagePair = Pair.create((View) img, "tImage");
-                Pair<View, String> holderPair = Pair.create((View) frameLayout, "tNameHolder");
+                intent.putExtra("released", film.getReleased());
+                Pair<View, String> imagePair = Pair.create((View) img, img.getTransitionName());
+                Pair<View, String> holderPair = Pair.create((View) title, title.getTransitionName());
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, imagePair, holderPair);
-                ActivityCompat.startActivity(context, intent, options.toBundle());
+                startActivity(context, intent, options.toBundle());
             }
         });
+
         img.setImageBitmap(film.getPoster());
         img.setDrawingCacheEnabled(true);
         TextView year = (TextView) rootView.findViewById(R.id.year);

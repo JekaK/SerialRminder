@@ -25,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String POSTER = "poster";
     private final String TYPE = "type";
     private final String FILM_ID = "film_id";
+    private final String RELEASED = "released";
 
     private final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             "id integer primary key autoincrement," +
@@ -32,13 +33,13 @@ public class DBHelper extends SQLiteOpenHelper {
             YEAR + " text," +
             POSTER + " BLOB," +
             TYPE + " text," +
-            FILM_ID + " text" +
+            FILM_ID + " text," +
+            RELEASED + " text" +
             ");";
 
     public DBHelper(Context context) {
-        super(context, "filmsDb", null, 2);
+        super(context, "filmsDb", null, 1);
         database = this.getWritableDatabase();
-
     }
 
     @Override
@@ -49,12 +50,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion) {
-            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + FILM_ID + " STRING DEFAULT 0");
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            onCreate(db);
         }
-    }
-
-    public void dropTable() {
-        database.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
     public void insertFilm(Film film) {
@@ -64,6 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("poster", film.getPosterBytes());
         cv.put("type", film.getType());
         cv.put("film_id", film.getId());
+        cv.put("released", film.getReleased());
         long rowID = database.insert(TABLE_NAME, null, cv);
         Log.d(MY_LOG, "Inserted to " + rowID);
         this.close();
@@ -83,6 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
             int poster = cursor.getColumnIndex("poster");
             int type = cursor.getColumnIndex("type");
             int film_id = cursor.getColumnIndex("film_id");
+            int released = cursor.getColumnIndex("released");
             do {
                 Film film = new Film();
                 film.setTitle(cursor.getString(title));
@@ -90,6 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 film.setPoster(cursor.getBlob(poster));
                 film.setType(cursor.getString(type));
                 film.setId(cursor.getString(film_id));
+                film.setReleased(cursor.getString(released));
                 films.add(film);
             } while (cursor.moveToNext());
             cursor.close();

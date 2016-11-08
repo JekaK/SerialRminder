@@ -9,6 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import alpha.reminder.com.serialreminder.Fragments.FavouriteFragment;
 import alpha.reminder.com.serialreminder.Fragments.SearchFragment;
 

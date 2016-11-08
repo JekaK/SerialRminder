@@ -1,12 +1,15 @@
 package alpha.reminder.com.serialreminder.Fragments;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -94,20 +97,26 @@ public class SearchFragment extends Fragment {
     }
 
     class SearchAsynkTask extends AsyncTask<Void, Void, Void> {
-
+        private ProgressDialog progressDialog;
         private String searchName;
         private String request;
         private Resources resources;
 
+        @TargetApi(Build.VERSION_CODES.M)
         public SearchAsynkTask(String searchName, Resources resources) {
             this.searchName = searchName;
             this.resources = resources;
+            progressDialog = new ProgressDialog(SearchFragment.this.getContext());
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             request = resources.getString(R.string.HTTP_REQUEST) + searchName + resources.getString(R.string.PAGE) + "1";
+            progressDialog.show();
+
         }
 
         @Override
@@ -153,6 +162,8 @@ public class SearchFragment extends Fragment {
             adapter.clear();
             adapter = new CardAdapterSearch(getActivity(), SingletoneInfo.getInstance().getFilms());
             listView.setAdapter(adapter);
+            progressDialog.dismiss();
+
         }
     }
 
@@ -194,21 +205,21 @@ public class SearchFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JSONObject resulObject = null;
+        JSONObject resultObject = null;
 
         try {
             if (connection != null && connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 String response = new String();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 response += reader.readLine();
-                resulObject = (JSONObject) parser.parse(response);
+                resultObject = (JSONObject) parser.parse(response);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return resulObject;
+        return resultObject;
     }
 
     private int pageCounter(int sum) {

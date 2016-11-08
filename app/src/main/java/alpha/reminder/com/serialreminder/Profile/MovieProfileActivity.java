@@ -54,12 +54,13 @@ public class MovieProfileActivity extends Activity implements View.OnClickListen
         posterImage.setImageBitmap(poster);
 
         viewType.setText("Type: " + type);
-        viewYear.setText("Year: " + year);
         viewTitle.setText(title);
+
         final AsynkInfoTask asynkInfoTask = new AsynkInfoTask(this, film_id, new AsynkInfoTask.Delegate() {
             @Override
             public void onPostExecuteDone() {
                 viewDescription.setText(AsynkInfoTask.getPlot());
+                viewYear.setText("Year: " + AsynkInfoTask.getReleased());
             }
         });
         asynkInfoTask.execute();
