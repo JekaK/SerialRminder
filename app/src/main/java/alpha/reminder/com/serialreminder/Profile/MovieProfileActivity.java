@@ -15,6 +15,7 @@ import android.widget.TextView;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import alpha.reminder.com.serialreminder.Asynk.AsynkInfoTask;
+import alpha.reminder.com.serialreminder.DBHelper.DBHelper;
 import alpha.reminder.com.serialreminder.R;
 
 /**
@@ -33,7 +34,7 @@ public class MovieProfileActivity extends Activity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_profile);
-
+        final DBHelper dbHelper = new DBHelper(this);
         viewTitle = (TextView) findViewById(R.id.placeNameHolder);
 
         expandableLayout0 = (ExpandableLayout) findViewById(R.id.expandable_layout_0);
@@ -55,16 +56,21 @@ public class MovieProfileActivity extends Activity implements View.OnClickListen
 
         viewType.setText("Type: " + type);
         viewTitle.setText(title);
-
-        final AsynkInfoTask asynkInfoTask = new AsynkInfoTask(this, film_id, new AsynkInfoTask.Delegate() {
-            @Override
-            public void onPostExecuteDone() {
-                viewDescription.setText(AsynkInfoTask.getPlot());
-                viewYear.setText("Year: " + AsynkInfoTask.getReleased());
-            }
-        });
-        asynkInfoTask.execute();
-
+        if (!dbHelper.getFilmByFilmId(film_id).getReleased().equals("")) {
+            viewDescription.setText(dbHelper.getFilmByFilmId(film_id).getDescription());
+            viewYear.setText("Year: " + dbHelper.getFilmByFilmId(film_id).getReleased());
+        } else {
+            final AsynkInfoTask asynkInfoTask = new AsynkInfoTask(this, film_id, new AsynkInfoTask.Delegate() {
+                @Override
+                public void onPostExecuteDone() {
+                    viewDescription.setText(AsynkInfoTask.getPlot());
+                    viewYear.setText("Year: " + AsynkInfoTask.getReleased());
+                    dbHelper.updateFilmReleaseByFilmId(film_id, AsynkInfoTask.getReleased());
+                    dbHelper.updateFilmPlotByFilmID(film_id, AsynkInfoTask.getPlot());
+                }
+            });
+            asynkInfoTask.execute();
+        }
     }
 
     @Override

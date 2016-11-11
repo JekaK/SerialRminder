@@ -16,7 +16,6 @@ import alpha.reminder.com.serialreminder.Entity.Film;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    //TODO:Add update method for adding info about film
     private SQLiteDatabase database;
     private final String MY_LOG = "LOG";
     private final String TABLE_NAME = "Films";
@@ -26,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String TYPE = "type";
     private final String FILM_ID = "film_id";
     private final String RELEASED = "released";
+    private final String DESCRIPTION = "description";
 
     private final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             "id integer primary key autoincrement," +
@@ -34,11 +34,12 @@ public class DBHelper extends SQLiteOpenHelper {
             POSTER + " BLOB," +
             TYPE + " text," +
             FILM_ID + " text," +
-            RELEASED + " text" +
+            RELEASED + " text," +
+            DESCRIPTION + " text" +
             ");";
 
     public DBHelper(Context context) {
-        super(context, "filmsDb", null, 1);
+        super(context, "filmsDb", null, 3);
         database = this.getWritableDatabase();
     }
 
@@ -63,9 +64,46 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("type", film.getType());
         cv.put("film_id", film.getId());
         cv.put("released", film.getReleased());
+        cv.put("description", film.getDescription());
         long rowID = database.insert(TABLE_NAME, null, cv);
         Log.d(MY_LOG, "Inserted to " + rowID);
         this.close();
+    }
+
+    public void updateFilmReleaseByFilmId(String id, String released) {
+        String query = "UPDATE Films SET released='" + released + "' WHERE film_id = '" + id + "'";
+        database.execSQL(query);
+    }
+
+    public void updateFilmPlotByFilmID(String id, String plot) {
+        String query = "UPDATE Films SET description='" + plot + "' WHERE film_id = '" + id + "'";
+        database.execSQL(query);
+    }
+
+    public Film getFilmByFilmId(String id) {
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + FILM_ID + " = '" + id + "'", null);
+        if (cursor.moveToFirst()) {
+            int title = cursor.getColumnIndex("title");
+            int year = cursor.getColumnIndex("year");
+            int poster = cursor.getColumnIndex("poster");
+            int type = cursor.getColumnIndex("type");
+            int film_id = cursor.getColumnIndex("film_id");
+            int released = cursor.getColumnIndex("released");
+            int description = cursor.getColumnIndex("description");
+            do {
+                Film film = new Film();
+                film.setTitle(cursor.getString(title));
+                film.setYear(cursor.getString(year));
+                film.setPoster(cursor.getBlob(poster));
+                film.setType(cursor.getString(type));
+                film.setId(cursor.getString(film_id));
+                film.setReleased(cursor.getString(released));
+                film.setDescription(cursor.getString(description));
+                return film;
+            } while (cursor.moveToNext());
+        }
+
+        return null;
     }
 
     public void deleteFilm(Film film) {
@@ -83,6 +121,7 @@ public class DBHelper extends SQLiteOpenHelper {
             int type = cursor.getColumnIndex("type");
             int film_id = cursor.getColumnIndex("film_id");
             int released = cursor.getColumnIndex("released");
+            int description = cursor.getColumnIndex("description");
             do {
                 Film film = new Film();
                 film.setTitle(cursor.getString(title));
@@ -91,6 +130,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 film.setType(cursor.getString(type));
                 film.setId(cursor.getString(film_id));
                 film.setReleased(cursor.getString(released));
+                film.setDescription(cursor.getString(description));
                 films.add(film);
             } while (cursor.moveToNext());
             cursor.close();

@@ -15,7 +15,7 @@ public class Film {
     private Bitmap poster;
     private String type;
     private String id;
-    private String description;
+    private String description = new String("");
     private String released = new String("");
 
     public Film() {
