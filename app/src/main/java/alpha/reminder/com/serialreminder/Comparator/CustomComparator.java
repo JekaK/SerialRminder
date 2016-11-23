@@ -7,14 +7,16 @@ import alpha.reminder.com.serialreminder.Entity.Film;
  */
 
 public class CustomComparator {
+
     enum Months {
-        Jan, Feb,
-        Mar, Apr,
-        May, Jun,
-        Jul, Aug,
-        Sep, Oct,
-        Nov, Dec
+        Dec, Nov,
+        Oct, Sep,
+        Aug, Jul,
+        Jun, May,
+        Apr, Mar,
+        Feb, Jan
     }
+
 
     public CustomComparator() {
     }
@@ -34,6 +36,7 @@ public class CustomComparator {
     }
 
     public int compare(Film lhs, Film rhs) {
+
         String[] mass1 = divider(lhs.getReleased()), mass2 = divider(rhs.getReleased());
         int isDay = 0, isMonth = 0, isYear = 0;
 
@@ -49,7 +52,7 @@ public class CustomComparator {
                 isYear = 1;
             }
         }
-        if (finder(mass1[1]).compareTo(finder(mass2[1]))>0) {
+        if (finder(mass1[1]).compareTo(finder(mass2[1])) > 0) {
             isMonth = -1;
         } else {
             if (mass1[1].equals(mass2[1])) {

@@ -1,6 +1,7 @@
 package alpha.reminder.com.serialreminder;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 import alpha.reminder.com.serialreminder.Fragments.FavouriteFragment;
 import alpha.reminder.com.serialreminder.Fragments.SearchFragment;
+import alpha.reminder.com.serialreminder.Service.NotificationService;
 
 public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         switch (position) {
             case 0: {
                 manager.beginTransaction().replace(R.id.container, new FavouriteFragment()).commit();
+
                 break;
             }
             case 1: {
@@ -77,5 +80,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setCurrentItem(0);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        startService(new Intent(this, NotificationService.class));
+    }
 }
