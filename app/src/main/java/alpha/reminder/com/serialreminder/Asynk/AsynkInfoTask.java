@@ -57,6 +57,11 @@ public class AsynkInfoTask extends AsyncTask<Void, Void, Void> {
         JSONObject resultObject = requestResult("http://www.omdbapi.com/?i=" + id);
         if (resultObject != null) {
             plot = (String) resultObject.get("Plot");
+            for (int i = 0; i < plot.length(); i++) {
+                if (plot.charAt(i) == '\'') {
+                    plot = plot.substring(0, i - 1) + "\'" + plot.substring(i, plot.length());
+                }
+            }
             released = (String) resultObject.get("Released");
         } else {
             Log.w("Film info", "Very bad");

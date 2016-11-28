@@ -102,11 +102,11 @@ public class SearchFragment extends Fragment {
         private String request;
         private Resources resources;
 
-        @TargetApi(Build.VERSION_CODES.M)
         public SearchAsynkTask(String searchName, Resources resources) {
             this.searchName = searchName;
             this.resources = resources;
-            progressDialog = new ProgressDialog(SearchFragment.this.getContext());
+            progressDialog = new ProgressDialog(getActivity());
+
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(false);
         }

@@ -63,10 +63,15 @@ public class CardAdapterFavourite extends ArrayAdapter {
                 intent.putExtra("year", film.getYear());
                 intent.putExtra("film_id", film.getId());
                 intent.putExtra("released", film.getReleased());
-                Pair<View, String> imagePair = Pair.create((View) img, img.getTransitionName());
-                Pair<View, String> holderPair = Pair.create((View) title, title.getTransitionName());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, imagePair, holderPair);
-                startActivity(context, intent, options.toBundle());
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    Pair<View, String> imagePair = Pair.create((View) img, img.getTransitionName());
+                    Pair<View, String> holderPair = Pair.create((View) title, title.getTransitionName());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, imagePair, holderPair);
+                    startActivity(context, intent, options.toBundle());
+                } else {
+                    startActivity(context, intent, null);
+                }
             }
         });
 
